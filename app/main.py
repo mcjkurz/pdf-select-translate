@@ -17,6 +17,7 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
     level=logging.INFO,
 )
+logger = logging.getLogger(__name__)
 
 ROOT = Path(__file__).resolve().parent.parent
 UPLOADS_DIR = ROOT / "uploads"
@@ -183,6 +184,10 @@ async def translate(req: TranslateRequest) -> TranslateResponse:
     text = (resp.choices[0].message.content or "").strip()
     if not text:
         raise HTTPException(status_code=502, detail="Empty translation response.")
+    
+    logger.info(f"TRANSLATE [{target}] Input: {selected}")
+    logger.info(f"TRANSLATE [{target}] Output: {text}")
+    
     return TranslateResponse(translation=text)
 
 

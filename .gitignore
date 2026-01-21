@@ -9,6 +9,7 @@ venv/
 uploads/
 
 # Logs
+logs/
 *.log
 
 # Runtime

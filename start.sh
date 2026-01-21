@@ -2,7 +2,9 @@
 
 cd "$(dirname "$0")"
 
-LOG_FILE="server.log"
+# Create logs directory and timestamped log file
+mkdir -p logs
+LOG_FILE="logs/$(date '+%Y-%m-%d_%H-%M-%S').log"
 
 # Kill existing server if running
 if [ -f .server.pid ]; then
