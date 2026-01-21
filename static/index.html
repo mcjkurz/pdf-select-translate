@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF Select & Translate</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/pdfjs-dist@5.4.530/web/pdf_viewer.css"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/app.css?v={{CACHE_VERSION}}" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">PDF Select &amp; Translate</div>
+        <div class="spacer"></div>
+        <div class="topbar-actions">
+          <label class="select">
+            <span class="select-label">Target</span>
+            <select id="targetLang">
+              <option value="English" selected>English</option>
+              <option value="Chinese (Simplified)">Chinese (中文简体)</option>
+              <option value="Chinese (Traditional)">Chinese (中文繁體)</option>
+              <option value="Spanish">Spanish</option>
+              <option value="French">French</option>
+              <option value="German">German</option>
+              <option value="Japanese">Japanese</option>
+              <option value="Korean">Korean</option>
+              <option value="Russian">Russian</option>
+              <option value="Portuguese">Portuguese</option>
+              <option value="Italian">Italian</option>
+              <option value="Other">Other...</option>
+            </select>
+          </label>
+          <input type="text" id="customLang" class="custom-lang-input" placeholder="Type language..." style="display: none;" />
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="panel left" id="leftPanel">
+          <div class="panel-header">
+            <div class="panel-title">Document</div>
+            <div class="panel-controls pdf-nav-controls">
+              <button id="zoomOut" class="btn btn-small" title="Zoom out">−</button>
+              <button id="zoomIn" class="btn btn-small" title="Zoom in">+</button>
+              <div class="nav-separator"></div>
+              <button id="prevPage" class="btn btn-small">Prev</button>
+              <div class="page-indicator">
+                <span id="pageNum">0</span> / <span id="pageCount">0</span>
+              </div>
+              <button id="nextPage" class="btn btn-small">Next</button>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div id="pdfViewport" class="content-box pdf-viewport">
+              <div id="dropZone" class="drop-zone">
+                <input id="fileInput" type="file" accept="application/pdf" class="hidden-file-input" />
+                <div class="drop-zone-content">
+                  <svg class="drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 16V4m0 0L8 8m4-4l4 4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <p class="drop-text">Click to browse</p>
+                  <p class="drop-subtext">or drag & drop a PDF here</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="resizer" id="resizer"></div>
+
+        <section class="panel right" id="rightPanel">
+          <div class="panel-header">
+            <div class="panel-title">Translation</div>
+            <div class="panel-controls">
+              <div class="font-size-controls">
+                <button id="fontDown" class="btn btn-small" title="Decrease font size">A-</button>
+                <button id="fontUp" class="btn btn-small" title="Increase font size">A+</button>
+              </div>
+              <button id="translateBtn" class="btn primary" title="Re-translate with current language">Translate</button>
+              <button id="clearBtn" class="btn">Clear</button>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div id="translationOut" class="content-box"></div>
+            <div id="statusLine" class="status"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/app.js?v={{CACHE_VERSION}}"></script>
+  </body>
+</html>
