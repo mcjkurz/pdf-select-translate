@@ -11,6 +11,9 @@ uploads/
 # Logs
 *.log
 
+# Runtime
+.server.pid
+
 # IDE
 .idea/
 .vscode/
