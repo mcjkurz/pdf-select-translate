@@ -20,7 +20,7 @@ pip install -r requirements.txt
 
 # Configure environment
 cp .env.example .env
-# Edit .env with your POE_API_KEY
+# Edit .env with your API_KEY and API_ENDPOINT
 
 # Run
 ./start.sh

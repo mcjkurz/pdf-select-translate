@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 import time
@@ -10,6 +11,12 @@ from fastapi.staticfiles import StaticFiles
 from openai import OpenAI
 from pydantic import BaseModel, Field
 
+# Configure logging with timestamps
+logging.basicConfig(
+    format="%(asctime)s %(levelname)s %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+    level=logging.INFO,
+)
 
 ROOT = Path(__file__).resolve().parent.parent
 UPLOADS_DIR = ROOT / "uploads"
@@ -23,14 +30,14 @@ def _get_env(name: str, default: str | None = None) -> str | None:
     return v
 
 
-def _poe_client() -> OpenAI:
-    api_key = _get_env("POE_API_KEY")
+def _api_client() -> OpenAI:
+    api_key = _get_env("API_KEY")
     if not api_key:
         raise HTTPException(
             status_code=500,
-            detail="Missing POE_API_KEY. Set it in your environment before starting the server.",
+            detail="Missing API_KEY. Set it in your environment before starting the server.",
         )
-    base_url = _get_env("POE_BASE_URL", "https://api.poe.com/v1")
+    base_url = _get_env("API_ENDPOINT", "https://api.openai.com/v1")
     return OpenAI(api_key=api_key, base_url=base_url)
 
 
@@ -132,7 +139,7 @@ async def get_pdf(pdf_name: str) -> FileResponse:
 @app.post("/api/translate", response_model=TranslateResponse)
 async def translate(req: TranslateRequest) -> TranslateResponse:
     target = _target_language_label(req.target_language)
-    model = _get_env("POE_MODEL", "GPT-5.2") or "GPT-5.2"
+    model = _get_env("MODEL", "gpt-4o-mini") or "gpt-4o-mini"
     ctx_chars = _context_chars()
 
     # Normalize whitespace for cleaner input to the model
@@ -163,7 +170,7 @@ async def translate(req: TranslateRequest) -> TranslateResponse:
         f"Context (after): {after}"
     )
 
-    client = _poe_client()
+    client = _api_client()
     resp = client.chat.completions.create(
         model=model,
         messages=[

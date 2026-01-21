@@ -35,7 +35,7 @@ fi
 
 # Activate virtual environment and start server in background
 source .venv/bin/activate
-nohup uvicorn app.main:app --port 6969 >> "$LOG_FILE" 2>&1 &
+nohup uvicorn app.main:app --port 6969 --log-config log_config.json >> "$LOG_FILE" 2>&1 &
 echo $! > .server.pid
 echo "Server started on http://127.0.0.1:6969 (PID: $(cat .server.pid))"
 echo "Logs: $LOG_FILE"
